@@ -1,8 +1,27 @@
+import Link from 'next/link'
 import React from 'react'
 
 const register = () => {
   return (
-    <div>register</div>
+    <div className="h-screen w-full flex">
+         <section style={{backgroundImage: `url(/sfondo.jpg)`}} className="flex-1 lg:flex hidden flex-col justify-center items-center object-cover bg-cover bg-black/50 bg-blend-darken text-white">
+            <h1 className="text-6xl font-bold">Memoland</h1>
+            <p className="text-5xl tracking-wide text-gray-200">Organize your life</p>
+        </section>
+        <section className="flex-1 flex justify-center items-center bg-slate-100">
+        <form className="flex flex-col justify-center items-center gap-5 text-xl p-5">
+          <div className="flex flex-col gap-2">
+          <label htmlFor="email"></label>
+            <input className="p-2 rounded-lg shadow-md" type="email" id='email' placeholder='Email' />
+            <label htmlFor="password"></label>
+            <input className="p-2 rounded-lg shadow-md" type="password" id='password' placeholder='Password' />
+          </div>
+            <button className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 font-bold rounded-lg shadow-md">Login</button>
+            <p className=" text-2xl">Already have an account? <Link className="font-bold" href="/login">Login!</Link></p>
+        </form>
+        </section>
+       
+    </div>
   )
 }
 
