@@ -28,7 +28,7 @@ const handleLogin = async (e) => {
 }
 
 useEffect(() =>{
-   if (!currentUser) {
+   if (currentUser) {
       Router.push('/');
     }
 })

@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import React, { useContext, useState } from 'react'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useContext, useEffect, useState } from 'react'
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '@/firebase';
 import { AuthContext } from '@/context/AuthContext';
 import  Router  from 'next/router';
 
 const Register = () => {
   const { currentUser } = useContext(AuthContext);
+  const [username, setUsername] = useState(null)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
  
@@ -16,8 +17,11 @@ const handleRegister = async (e) => {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
+    console.log(user)
     Router.push('/');
-  
+    updateProfile(user, {
+      displayName: username,
+    })
     // ...
   })
   .catch((error) => {
@@ -27,7 +31,7 @@ const handleRegister = async (e) => {
 }
 
 useEffect(() =>{
-  if (!currentUser) {
+  if (currentUser) {
      Router.push('/');
    }
 })
@@ -41,6 +45,8 @@ useEffect(() =>{
         <section className="flex-1 flex justify-center items-center bg-slate-100">
         <form onSubmit={handleRegister} className="flex flex-col justify-center items-center gap-5 text-xl p-5">
           <div className="flex flex-col gap-2">
+          <label htmlFor="text"></label>
+            <input onChange={(e) => {setUsername(e.target.value)}} className="p-2 rounded-lg shadow-md" type="text" id='text' placeholder='Username' required />
           <label htmlFor="email"></label>
             <input onChange={(e) => {setEmail(e.target.value)}} className="p-2 rounded-lg shadow-md" type="email" id='email' placeholder='Email' required />
             <label htmlFor="password"></label>
