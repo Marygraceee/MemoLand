@@ -17,8 +17,7 @@ const handleLogin = async (e) => {
    .then((userCredential) => {
      // Signed in 
      const user = userCredential.user;
-     console.log(user)
-     Router.push("/")
+     
      // ...
    })
    .catch((error) => {

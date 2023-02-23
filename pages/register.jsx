@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from '@/firebase';
+import { auth, db } from '@/firebase';
 import { AuthContext } from '@/context/AuthContext';
 import  Router  from 'next/router';
+import { doc, setDoc } from "firebase/firestore"; 
 
 const Register = () => {
   const { currentUser } = useContext(AuthContext);
@@ -17,11 +18,15 @@ const handleRegister = async (e) => {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    console.log(user)
-    Router.push('/');
     updateProfile(user, {
       displayName: username,
     })
+    setDoc(doc(db, 'users', user.uid), {
+      uid: user.uid,
+      username,
+      email,
+      Todos: [],
+    });
     // ...
   })
   .catch((error) => {

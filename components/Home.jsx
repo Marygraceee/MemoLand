@@ -4,11 +4,9 @@ import Todos from './Todos'
 
 const Home = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start">
+    <div className="min-h-screen flex flex-col items-center justify-start w-full">
       <Navbar />
-      <div>
-<Todos />
-      </div>
+      <Todos />
     </div>
   )
 }

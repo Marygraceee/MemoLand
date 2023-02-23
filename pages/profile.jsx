@@ -1,14 +1,21 @@
-import Navbar from '@/components/Navbar'
-import Profile from '@/components/Profile'
-import React from 'react'
+import React, { useContext } from 'react';
+import Router from 'next/router';
+import { AuthContext } from '@/context/AuthContext';
+import Navbar from '@/components/Navbar';
+import UserInfo from '@/components/Profile';
 
-const profile = () => {
-  return (
-<div>
-   <Navbar/>
-    <Profile />
-</div>
-  )
+function Profile() {
+  const { currentUser } = useContext(AuthContext);
+  if (!currentUser) {
+    Router.push('/login');
+  } else {
+    return (
+      <div>
+        <Navbar/>
+        <UserInfo/>
+      </div>
+    );
+  }
 }
 
-export default profile
+export default Profile;
