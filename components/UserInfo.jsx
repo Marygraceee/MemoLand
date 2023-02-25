@@ -15,7 +15,7 @@ const UserInfo = () => {
 
   return (
     <div className="min-h-screen flex flex-col text-xl bg-slate-100 p-5 text-slate-500">
-        <h2 className="mx-auto text-2xl font-bold">Your profile informations</h2>
+        <h2 className="mx-auto xl:text-3xl text-2xl font-bold">Your profile informations</h2>
     <div className="p-5 flex flex-col justify-center items-start gap-2">
         {!modifyingUser ? (<div className="flex justify-center items-center gap-2">
             <p>Username: {currentUser && currentUser.displayName} </p>

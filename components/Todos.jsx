@@ -36,13 +36,13 @@ const Todos = () => {
 
   return (
     <section className="min-h-screen bg-slate-100 w-full flex">
-      {Todos && Todos.length === 0 ? (
-        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-5xl text-2xl text-slate-500">
+      {Todos && Todos.length === 0 || !Todos ? (
+        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500">
 <h2>You have nothing to do yet!</h2>
 <button className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
         </div>
       
-      ) : console.log("hola")}
+      ) : console.log(Todos)}
     </section>
   )
 }
