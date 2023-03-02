@@ -5,17 +5,12 @@ import { auth, db } from '@/firebase';
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import {AiOutlinePlusCircle} from "react-icons/ai"
 import TodoModal from './TodoModal';
+import Todo from './Todo';
 
 
 const Todos = () => {
   const [todos, setTodos] = useState(null)
-  const { currentUser } = useContext(AuthContext);
-  const [modal, setModal] = useState(false)
-
-  
-  
-  
-
+    const [modal, setModal] = useState(false)
 
   useEffect(() => {
     if (auth.currentUser) {
@@ -32,27 +27,13 @@ const Todos = () => {
     }
   }, [auth.currentUser, setTodos]);
   
-
- 
-
-
-
-
-
-  
-
-// Retrieve Todos subcollection
-
-
-// Retrieve Important subcollection
-
-
   return (
     <section className="min-h-screen bg-slate-100 w-full flex">
       {todos && todos.length === 0 || !todos ? (
         <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500">
 <h2>You have nothing to do yet!</h2>
-<button className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
+<button onClick={()=>{setModal(true)}} className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
+{modal && <TodoModal modal={modal} setModal={setModal} />}
         </div>
       
       ) : 
@@ -60,8 +41,8 @@ const Todos = () => {
         <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500">
 
           {todos && todos.map((todo) => (
-        <div key={todo}>
-          <p>{todo}</p>
+        <div key={todo.addedOn}>
+          <Todo todo={todo}/>
         </div>
       ))}
          <button onClick={()=>{setModal(true)}} className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
