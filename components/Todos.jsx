@@ -30,7 +30,7 @@ const Todos = () => {
   return (
     <section className="min-h-screen bg-slate-100 w-full flex">
       {todos && todos.length === 0 || !todos ? (
-        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500">
+        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
 <h2>You have nothing to do yet!</h2>
 <button onClick={()=>{setModal(true)}} className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
 {modal && <TodoModal modal={modal} setModal={setModal} />}
@@ -38,10 +38,10 @@ const Todos = () => {
       
       ) : 
       (
-        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500">
+        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
 
           {todos && todos.map((todo) => (
-        <div key={todo.addedOn}>
+        <div className="w-full" key={todo.addedOn}>
           <Todo todo={todo}/>
         </div>
       ))}
