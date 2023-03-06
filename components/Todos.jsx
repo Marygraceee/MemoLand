@@ -26,10 +26,14 @@ const Todos = () => {
       };
     }
   }, [auth.currentUser, setTodos]);
+
+
+  const sortedTodos = todos && todos.slice().sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+  
   
   return (
     <section className="min-h-screen bg-slate-100 w-full flex">
-      {todos && todos.length === 0 || !todos ? (
+      {sortedTodos && sortedTodos.length === 0 || !sortedTodos ? (
         <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
 <h2>You have nothing to do yet!</h2>
 <button onClick={()=>{setModal(true)}} className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
@@ -40,11 +44,11 @@ const Todos = () => {
       (
         <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
 
-          {todos && todos.map((todo) => (
-        <div className="w-full" key={todo.addedOn}>
-          <Todo todo={todo}/>
-        </div>
-      ))}
+{sortedTodos && sortedTodos.map((todo) => (
+          <div className="w-full" key={todo.addedOn}>
+            <Todo todo={todo}/>
+          </div>
+        ))}
          <button onClick={()=>{setModal(true)}} className="hover:text-slate-600 duration-300 transition"><AiOutlinePlusCircle/></button>
          {modal && <TodoModal modal={modal} setModal={setModal} />}
         </div>
