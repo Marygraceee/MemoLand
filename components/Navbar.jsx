@@ -1,36 +1,42 @@
-import { AuthContext } from '@/context/AuthContext';
-import React, { useContext } from 'react'
-import { auth } from '@/firebase';
-import { signOut } from 'firebase/auth';
-import {MdOutlineLogout} from "react-icons/md"
-import Link from 'next/link';
-import { Router } from 'next/router';
+import React, { useContext } from "react";
+import { signOut } from "firebase/auth";
+import { MdOutlineLogout } from "react-icons/md";
+import Link from "next/link";
+import { Router } from "next/router";
+import { auth } from "@/firebase";
+import { AuthContext } from "@/context/AuthContext";
 
-const Navbar = () => {
+function Navbar() {
   const logout = () => {
-    signOut(auth).then(() => {
-      Router.push("/")
+    signOut(auth)
+      .then(() => {
+        Router.push("/");
         // Sign-out successful.
-      }).catch((error) => {
+      })
+      .catch((error) => {
         // An error happened.
       });
-  }   
+  };
 
-
-    const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   return (
     <nav className="sticky top-0 w-full text-xl bg-slate-500 text-white font-bold flex justify-between items-center py-2 lg:px-14 px-6">
- <div>
-   <Link href="/">MemoLand</Link>
- </div>
- <div className="flex justify-center items-center gap-5">
- <button className="hover:text-slate-200 hover:font-bold duration-200 transition">
- <Link href="/profile">{currentUser && currentUser.displayName}</Link>
-  </button>
-    <button onClick={logout} className="bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-black hover:font-bold transition duration-300 p-2 rounded-full shadow-lg"><MdOutlineLogout/></button>
- </div>
+      <div>
+        <Link href="/">MemoLand</Link>
+      </div>
+      <div className="flex justify-center items-center gap-5">
+        <button className="hover:text-slate-200 hover:font-bold duration-200 transition">
+          <Link href="/profile">{currentUser && currentUser.displayName}</Link>
+        </button>
+        <button
+          onClick={logout}
+          className="bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-black hover:font-bold transition duration-300 p-2 rounded-full shadow-lg"
+        >
+          <MdOutlineLogout />
+        </button>
+      </div>
     </nav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
