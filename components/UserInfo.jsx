@@ -1,105 +1,128 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import { AiOutlineEdit } from "react-icons/ai";
 
 function UserInfo() {
   const { currentUser } = useContext(AuthContext);
 
-  const [modifyingUser, setModifyingUser] = useState(false);
-  const [newUsername, setNewUsername] = useState(null);
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-  const [modifyingEmail, setModifyingEmail] = useState(false);
-  const [newEmail, setNewEmail] = useState(null);
-
-  const [modifyingPassword, setModifyingPassword] = useState(false);
-  const [newPassword, setNewPassword] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
-    <div className="min-h-screen flex flex-col text-xl bg-slate-100 p-5 text-slate-500">
-      <h2 className="mx-auto xl:text-3xl text-2xl font-bold">
-        Your Profile Information
+    <section className="min-h-screen w-full flex flex-col p-5 gap-5">
+      <h2 className="lg:text-4xl text-3xl font-bold text-gray-800 mx-auto text-center">
+        Your personal informations!
       </h2>
-      <div className="p-5 flex flex-col justify-center items-start gap-2">
-        {!modifyingUser ? (
-          <div className="flex justify-center items-center gap-2">
-            <p>
-              Username:
-              {currentUser?.displayName}
-            </p>
-            <button className="text-sm" onClick={() => setModifyingUser(true)}>
-              Modify
-            </button>
-          </div>
-        ) : (
-          <input
-            className="p-2 rounded-lg shadow-md"
-            type="text"
-            id="text"
-            placeholder="New Username"
-            required
-            onChange={(e) => setNewUsername(e.target.value)}
-          />
-        )}
-        {modifyingUser && (
-          <button className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 rounded-lg shadow-md">
-            Change Username
-          </button>
-        )}
-      </div>
-      <div className="p-5 flex flex-col justify-center items-start gap-2">
-        {!modifyingEmail ? (
-          <div className="flex justify-center items-center gap-2">
-            <p>
-              Email:
-              {currentUser?.email}
-            </p>
-            <button className="text-sm" onClick={() => setModifyingEmail(true)}>
-              Modify
-            </button>
-          </div>
-        ) : (
-          <input
-            className="p-2 rounded-lg shadow-md"
-            type="email"
-            id="email"
-            placeholder="New Email"
-            required
-            onChange={(e) => setNewEmail(e.target.value)}
-          />
-        )}
-        {modifyingEmail && (
-          <button className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 rounded-lg shadow-md">
-            Change Email
-          </button>
-        )}
-      </div>
-      <div className="p-5 flex flex-col justify-center items-start gap-2">
-        {!modifyingPassword ? (
-          <div className="flex justify-center items-center gap-2">
-            <p>Password</p>
+
+      <div className="flex flex-col gap-5 w-80 mx-auto justify-center items-start">
+        {!isEditingUsername ? (
+          <div className="flex gap-2 justify-start items-center">
+            <h3>Username: {currentUser.displayName}</h3>
             <button
-              className="text-sm"
-              onClick={() => setModifyingPassword(true)}
+              onClick={() => {
+                setIsEditingUsername(!isEditingUsername);
+              }}
             >
-              Modify
+              <AiOutlineEdit />
             </button>
           </div>
         ) : (
-          <input
-            className="p-2 rounded-lg shadow-md"
-            type="password"
-            id="password"
-            placeholder="New Password"
-            required
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
+          <form className="flex lg:flex-row flex-col gap-2 lg:justify-start justify-center lg:items-center items-start">
+            <label className="hidden" htmlFor="username"></label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              required
+              placeholder="New username"
+              className="px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <button className="bg-green-500 text-white hover:bg-green-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md">
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditingUsername(false)}
+              className="bg-red-500 text-white hover:bg-red-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md"
+            >
+              Cancel
+            </button>
+          </form>
         )}
-        {modifyingPassword && (
-          <button className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 rounded-lg shadow-md">
-            Change Password
-          </button>
+
+        {!isEditingEmail ? (
+          <div className="flex gap-2 justify-start items-center">
+            <h3>Email: {currentUser.email}</h3>
+            <button
+              onClick={() => {
+                setIsEditingEmail(!isEditingEmail);
+              }}
+            >
+              <AiOutlineEdit />
+            </button>
+          </div>
+        ) : (
+          <form className="flex lg:flex-row flex-col gap-2 lg:justify-start justify-center lg:items-center items-start">
+            <label className="hidden" htmlFor="email"></label>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              required
+              placeholder="New email"
+              className="px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <button className="bg-green-500 text-white hover:bg-green-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md">
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditingEmail(false)}
+              className="bg-red-500 text-white hover:bg-red-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md"
+            >
+              Cancel
+            </button>
+          </form>
+        )}
+
+        {!isEditingPassword ? (
+          <div className="flex gap-2 justify-start items-center">
+            <h3>Password</h3>
+            <button
+              onClick={() => {
+                setIsEditingPassword(!isEditingPassword);
+              }}
+            >
+              <AiOutlineEdit />
+            </button>
+          </div>
+        ) : (
+          <form className="flex lg:flex-row flex-col gap-2 lg:justify-start justify-center lg:items-center items-start">
+            <label className="hidden" htmlFor="password"></label>
+            <input
+              type="text"
+              name="password"
+              id="password"
+              required
+              placeholder="New password"
+              className="px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <button className="bg-green-500 text-white hover:bg-green-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md">
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditingPassword(false)}
+              className="bg-red-500 text-white hover:bg-red-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md"
+            >
+              Cancel
+            </button>
+          </form>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 

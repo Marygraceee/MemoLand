@@ -83,72 +83,80 @@ function Register() {
           Organize your life
         </p>
       </section>
-      <section className="flex-1 flex flex-col justify-center items-center bg-slate-100">
-        <h2 className="xl:hidden flex text-6xl font-bold text-slate-500">
+      <section className="flex-1 flex flex-col justify-center items-center h-screen bg-gray-100 gap-5">
+        <h2 className="block lg:hidden xl:text-7xl text-5xl font-bold">
           MemoLand
         </h2>
         <form
           onSubmit={handleRegister}
-          className="flex flex-col justify-center items-start gap-5 text-xl p-5"
+          className="flex flex-col justify-center items-center bg-white text-gray-800  rounded-md shadow-xl text-xl px-24 py-12"
         >
-          <div className="flex flex-col gap-2">
-            <label htmlFor="text" />
+          <h3 className="text-2xl font-bold mb-4">Welcome!</h3>
+          <div className="flex flex-col space-y-4 w-full">
+            <label htmlFor="username" className="sr-only">
+              Usrename
+            </label>
             <input
+              id="username"
+              className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              required
+              type="username"
+              placeholder="Username"
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-              className="p-2 rounded-lg shadow-md"
-              type="text"
-              id="text"
-              placeholder="Username"
-              required
             />
-            <label htmlFor="email" />
+            <label htmlFor="email" className="sr-only">
+              Email
+            </label>
             <input
+              id="email"
+              className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              required
+              type="email"
+              placeholder="Email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              className="p-2 rounded-lg shadow-md"
-              type="email"
-              id="email"
-              placeholder="Email"
-              required
             />
-            <label htmlFor="password" />
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
             <input
+              id="password"
+              className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              required
+              type="password"
+              placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              className="p-2 rounded-lg shadow-md"
-              type="password"
-              id="password"
-              placeholder="Password"
-              required
             />
           </div>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex flex-col mt-6 space-y-4 w-full">
             <button
+              className="w-full px-4 py-2 rounded-md shadow-md bg-cyan-500 text-white font-bold"
               type="submit"
-              className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 font-bold rounded-lg shadow-md"
             >
-              Register
+              Log in
             </button>
-            <p className=" text-lg">
-              Already have an account?
-              <Link className="font-bold" href="/login">
-                Login!
+            <button
+              className="w-full px-4 py-2 rounded-md shadow-md bg-[#DB4437] text-white font-bold"
+              type="button"
+              onClick={LoginGoogle}
+            >
+              Register with Google
+            </button>
+            <div className="flex justify-center text-sm">
+              <p>Already have an account?</p>
+              <Link
+                href="/login"
+                className="ml-1 text-cyan-500 font-bold hover:underline"
+              >
+                Log in!
               </Link>
-            </p>
+            </div>
           </div>
-
-          <button
-            onClick={() => {
-              LoginGoogle();
-            }}
-            className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 font-bold rounded-lg shadow-md flex justify-center items-center"
-          >
-            Sign up with Google
-          </button>
         </form>
       </section>
     </div>

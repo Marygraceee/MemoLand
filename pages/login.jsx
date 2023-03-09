@@ -12,6 +12,7 @@ import Router from "next/router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
 import { AuthContext } from "@/context/AuthContext";
+import { FaGoogle } from "react-icons/fa";
 
 function Login() {
   const { currentUser } = useContext(AuthContext);
@@ -76,59 +77,67 @@ function Login() {
           Organize your life
         </p>
       </section>
-      <section className="flex-1 flex flex-col justify-center items-center bg-slate-100">
-        <h2 className="xl:hidden flex text-6xl font-bold text-slate-500">
+      <section className="flex-1 flex flex-col justify-center items-center h-screen bg-gray-100 gap-5">
+        <h2 className="block lg:hidden xl:text-7xl text-5xl font-bold">
           MemoLand
         </h2>
         <form
           onSubmit={handleLogin}
-          className="flex flex-col justify-center items-start gap-5 text-xl p-5"
+          className="flex flex-col justify-center items-center bg-white text-gray-800  rounded-md shadow-xl text-xl px-24 py-12"
         >
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" />
+          <h3 className="text-2xl font-bold mb-4">Welcome back!</h3>
+          <div className="flex flex-col space-y-4 w-full">
+            <label htmlFor="email" className="sr-only">
+              Email
+            </label>
             <input
+              id="email"
+              className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              required
+              type="email"
+              placeholder="Email"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              className="p-2 rounded-lg shadow-md"
-              type="email"
-              id="email"
-              placeholder="Email"
             />
-            <label htmlFor="password" />
+            <label htmlFor="password" className="sr-only">
+              Password
+            </label>
             <input
+              id="password"
+              className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              required
+              type="password"
+              placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              className="p-2 rounded-lg shadow-md"
-              type="password"
-              id="password"
-              placeholder="Password"
             />
           </div>
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex flex-col mt-6 space-y-4 w-full">
             <button
+              className="w-full px-4 py-2 rounded-md shadow-md bg-cyan-500 text-white font-bold"
               type="submit"
-              className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 font-bold rounded-lg shadow-md"
             >
-              Login
+              Log in
             </button>
-            <p className=" text-lg">
-              Don't have an account yet?
-              <Link className="font-bold" href="/register">
-                Register!
+            <button
+              className="w-full px-4 py-2 rounded-md shadow-md bg-[#DB4437] text-white font-bold"
+              type="button"
+              onClick={LoginGoogle}
+            >
+              Log in with Google
+            </button>
+            <div className="flex justify-center text-sm">
+              <p>Don't have an account yet?</p>
+              <Link
+                href="/register"
+                className="ml-1 text-cyan-500 font-bold hover:underline"
+              >
+                Register
               </Link>
-            </p>
+            </div>
           </div>
-
-          <button
-            onClick={() => {
-              LoginGoogle();
-            }}
-            className="bg-slate-500 hover:bg-slate-400 text-slate-100 py-2 px-5 font-bold rounded-lg shadow-md flex justify-center items-center"
-          >
-            Sign in with Google
-          </button>
         </form>
       </section>
     </div>

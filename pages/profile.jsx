@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Router from "next/router";
 import { AuthContext } from "@/context/AuthContext";
-import Navbar from "@/components/Navbar";
 import UserInfo from "@/components/UserInfo";
 
 function Profile() {
@@ -11,7 +10,6 @@ function Profile() {
   } else {
     return (
       <div>
-        <Navbar />
         <UserInfo />
       </div>
     );

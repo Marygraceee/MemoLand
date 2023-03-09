@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { signOut } from "firebase/auth";
-import { MdOutlineLogout } from "react-icons/md";
-import Link from "next/link";
 import { Router } from "next/router";
 import { auth } from "@/firebase";
 import { AuthContext } from "@/context/AuthContext";
+import Link from "next/link";
 
 function Navbar() {
   const logout = () => {
@@ -19,24 +18,31 @@ function Navbar() {
   };
 
   const { currentUser } = useContext(AuthContext);
-  return (
-    <nav className="sticky top-0 w-full text-xl bg-slate-500 text-white font-bold flex justify-between items-center py-2 lg:px-14 px-6">
-      <div>
-        <Link href="/">MemoLand</Link>
-      </div>
-      <div className="flex justify-center items-center gap-5">
-        <button className="hover:text-slate-200 hover:font-bold duration-200 transition">
-          <Link href="/profile">{currentUser && currentUser.displayName}</Link>
-        </button>
-        <button
-          onClick={logout}
-          className="bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-black hover:font-bold transition duration-300 p-2 rounded-full shadow-lg"
-        >
-          <MdOutlineLogout />
-        </button>
-      </div>
-    </nav>
-  );
+  if (currentUser) {
+    return (
+      <nav
+        id="navbar"
+        className={`sticky top-0 w-full bg-white text-gray-800 shadow-md`}
+      >
+        <div className="sticky top-0 mx-auto flex justify-between items-center px-4 py-2">
+          <div className="font-bold text-xl">
+            <Link href="/">MemoLand</Link>
+          </div>
+          <div className="flex items-center">
+            <button className="mr-4 hover:text-cyan-400 hover:font-bold font-semibold transition duration-200">
+              <a href="/profile">Profile</a>
+            </button>
+            <button
+              onClick={logout}
+              className="bg-cyan-500 text-white hover:bg-cyan-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md"
+            >
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    );
+  } else return;
 }
 
 export default Navbar;
