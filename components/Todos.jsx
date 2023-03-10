@@ -6,6 +6,8 @@ import { AuthContext } from "@/context/AuthContext";
 import { auth, db } from "@/firebase";
 import TodoModal from "./TodoModal";
 import Todo from "./Todo";
+import Toolbar from "./Toolbar";
+import FloatingButton from "./FloatingButton";
 
 function Todos() {
   const [todos, setTodos] = useState(null);
@@ -34,39 +36,19 @@ function Todos() {
     todos.slice().sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
   return (
-    <section className="min-h-screen bg-slate-100 w-full flex">
-      {(sortedTodos && sortedTodos.length === 0) || !sortedTodos ? (
-        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
-          <h2>You have nothing to do yet!</h2>
-          <button
-            onClick={() => {
-              setModal(true);
-            }}
-            className="hover:text-slate-600 duration-300 transition"
-          >
-            <AiOutlinePlusCircle />
-          </button>
-          {modal && <TodoModal modal={modal} setModal={setModal} />}
+    <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
+      {sortedTodos && sortedTodos.length === 0 ? (
+        <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
+          <Toolbar />
+          <h2>You have no memos</h2>
         </div>
       ) : (
-        <div className="flex flex-col justify-start p-5 items-center w-full xl:text-3xl text-2xl text-slate-500 gap-5">
-          {sortedTodos &&
-            sortedTodos.map((todo) => (
-              <div className="w-full" key={todo.addedOn}>
-                <Todo todo={todo} />
-              </div>
-            ))}
-          <button
-            onClick={() => {
-              setModal(true);
-            }}
-            className="hover:text-slate-600 duration-300 transition"
-          >
-            <AiOutlinePlusCircle />
-          </button>
-          {modal && <TodoModal modal={modal} setModal={setModal} />}
+        <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
+          <Toolbar />
+          {sortedTodos && sortedTodos.map((todo) => <Todo todo={todo} />)}
         </div>
       )}
+      <FloatingButton />
     </section>
   );
 }

@@ -116,7 +116,7 @@ function Login() {
           </div>
           <div className="flex flex-col mt-6 space-y-4 w-full">
             <button
-              className="w-full px-4 py-2 rounded-md shadow-md bg-cyan-500 text-white font-bold"
+              className="w-full px-4 py-2 rounded-md shadow-md bg-cyan-500 hover:bg-cyan-600 transition duration-300 text-white font-bold"
               type="submit"
             >
               Log in
