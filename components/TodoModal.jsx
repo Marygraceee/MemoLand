@@ -3,8 +3,14 @@ import React, { useContext, useState } from "react";
 import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { db } from "@/firebase";
 import { AuthContext } from "@/context/AuthContext";
+import { useSpring, animated } from "@react-spring/web";
 
-function TodoModal({ modal, setModal }) {
+function TodoModal({ showModal, setShowModal }) {
+  const modalProps = useSpring({
+    opacity: showModal ? 1 : 0,
+    transform: showModal ? "scale(1)" : "scale(0.5)",
+  });
+
   const { currentUser } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,25 +38,22 @@ function TodoModal({ modal, setModal }) {
       },
       { merge: true }
     );
-    setModal(false);
+    setShowModal(false);
   };
   return (
-    <div
-      id="defaultModal"
-      className="fixed top-0 w-full h-screen bg-black/25 text-xl"
-    >
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col justify-center items-start gap-5 text-xl p-5 bg-slate-500 rounded-lg shadow-xl"
-        >
+    <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black/50">
+      <animated.div
+        style={modalProps}
+        className="bg-slate-500 rounded-lg shadow-xl p-5 w-[40rem]"
+      >
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-xl">
           <input
             className="p-3 rounded-lg shadow-md outline-none"
             type="text"
             placeholder="Task Title"
             required
           />
-          <input
+          <textarea
             className="p-3 rounded-lg shadow-md outline-none"
             type="text"
             placeholder="Description"
@@ -69,7 +72,7 @@ function TodoModal({ modal, setModal }) {
             <p>Important?</p>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" value="" className="sr-only peer" />
-              <div className="w-11 h-6 bg-slate-100 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600" />
+              <div className="w-11 h-6 transition duration-200 bg-slate-100 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600" />
             </label>
           </div>
           <div className="flex justify-center items-center mx-auto w-full gap-2">
@@ -82,15 +85,13 @@ function TodoModal({ modal, setModal }) {
             <button
               type="button"
               className="flex-1 flex justify-center items-center bg-slate-100 hover:bg-slate-200 duration-200 transition rounded-lg shadow-lg p-2 text-3xl text-red-600"
-              onClick={() => {
-                setModal(false);
-              }}
+              onClick={() => setShowModal(false)}
             >
               <AiOutlineCloseCircle />
             </button>
           </div>
         </form>
-      </div>
+      </animated.div>
     </div>
   );
 }

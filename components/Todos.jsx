@@ -48,7 +48,8 @@ function Todos() {
           {sortedTodos && sortedTodos.map((todo) => <Todo todo={todo} />)}
         </div>
       )}
-      <FloatingButton />
+      <FloatingButton setModal={setModal} />
+      {modal && <TodoModal showModal={modal} setShowModal={setModal} />}
     </section>
   );
 }

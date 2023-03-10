@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 
-const FloatingButton = () => {
+const FloatingButton = ({ modal, setModal }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseEnter = () => {
@@ -14,6 +14,9 @@ const FloatingButton = () => {
 
   return (
     <button
+      onClick={() => {
+        setModal(true);
+      }}
       className="fixed bottom-0 mb-5 bg-cyan-500 hover:bg-cyan-600 transition duration-200 text-white font-bold w-12 aspect-square rounded-full flex items-center justify-center"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

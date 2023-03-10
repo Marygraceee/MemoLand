@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import {
   AiOutlineSearch,
@@ -18,7 +19,9 @@ const Toolbar = () => {
       </div>
       <div className="flex justify-center items-center p-5">
         <button className="hover:bg-gray-200 cursor-pointer p-4 rounded-full">
-          <AiOutlineSetting size={24} />
+          <Link href="/profile">
+            <AiOutlineSetting size={24} />
+          </Link>
         </button>
       </div>
     </div>
