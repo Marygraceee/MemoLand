@@ -35,7 +35,7 @@ const Sidebar = () => {
   };
 
   return (
-    <nav className="w-80 flex flex-col justify-between items-start h-screen bg-gray-800 p-5 shadow-lg">
+    <nav className="w-80 lg:flex hidden flex-col justify-between items-start h-screen bg-gray-800 p-5 shadow-lg">
       <div className="flex flex-col gap-5">
         <h2 className="text-white font-bold leading-loose text-3xl">
           Hi, {currentUser.displayName}!
