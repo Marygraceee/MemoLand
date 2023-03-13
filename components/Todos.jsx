@@ -45,11 +45,12 @@ function Todos() {
       ) : (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
           <Toolbar />
-          {sortedTodos && sortedTodos.map((todo) => <Todo todo={todo} />)}
+          {sortedTodos &&
+            sortedTodos.map((todo) => <Todo key={todo.addedOn} todo={todo} />)}
         </div>
       )}
       <FloatingButton setModal={setModal} />
-      {modal && <TodoModal showModal={modal} setShowModal={setModal} />}
+      <TodoModal showModal={modal} setShowModal={setModal} />
     </section>
   );
 }

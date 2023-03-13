@@ -37,7 +37,7 @@ const Sidebar = () => {
   return (
     <nav className="w-80 lg:flex hidden flex-col justify-between items-start h-screen bg-gray-800 p-5 shadow-lg">
       <div className="flex flex-col gap-5">
-        <h2 className="text-white font-bold leading-loose text-3xl">
+        <h2 className="text-white font-bold leading-loose text-xl">
           Hi, {currentUser.displayName}!
         </h2>
         <ul className="text-gray-100 text-lg flex flex-col gap-5">
