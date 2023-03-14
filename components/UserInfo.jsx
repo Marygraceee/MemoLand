@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { AiOutlineEdit } from "react-icons/ai";
 import Toolbar from "./Toolbar";
-import { updateEmail, updateProfile } from "firebase/auth";
+import { updateEmail, updatePassword, updateProfile } from "firebase/auth";
 import { auth, db } from "@/firebase";
 import Loading from "./Loading";
 import { useRouter } from "next/router";
@@ -54,10 +54,21 @@ function UserInfo() {
     setLoading(true);
     updateEmail(auth.currentUser, newEmail)
       .then(() => {
-        // Email updated!
-        // ...
-        setLoading(false);
-        router.reload();
+        const userRef = doc(db, "users", currentUser.uid);
+        setDoc(
+          userRef,
+          {
+            email: newEmail,
+          },
+          { merge: true }
+        )
+          .then(() => {
+            setLoading(false);
+            router.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         // An error occurred
@@ -68,15 +79,15 @@ function UserInfo() {
   const handlePasswordChange = (e) => {
     e.preventDefault();
     setLoading(true);
-    updateProfile(auth.currentUser, {
-      password: newPassword,
-    })
+    updatePassword(auth.currentUser, newPassword)
       .then(() => {
+        // Update successful.
         setLoading(false);
         router.reload();
       })
       .catch((error) => {
-        console.log(error);
+        // An error ocurred
+        // ...
       });
   };
 
@@ -159,7 +170,7 @@ function UserInfo() {
                 placeholder="New email"
                 className="px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 onChange={(e) => {
-                  setNewEmail(e.target.event);
+                  setNewEmail(e.target.value);
                 }}
               />
               <button className="bg-green-500 text-white hover:bg-green-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md">
@@ -199,7 +210,7 @@ function UserInfo() {
                 placeholder="New password"
                 className="px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 onChange={(e) => {
-                  setNewPassword(e.target.event);
+                  setNewPassword(e.target.value);
                 }}
               />
               <button className="bg-green-500 text-white hover:bg-green-400 hover:font-bold font-semibold transition duration-300 px-4 py-2 rounded-md">

@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-key */
-import React, { useContext, useEffect, useState } from "react";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { AuthContext } from "@/context/AuthContext";
+import React, { useEffect, useState } from "react";
+import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "@/firebase";
 import TodoModal from "./TodoModal";
 import Todo from "./Todo";
 import Toolbar from "./Toolbar";
 import FloatingButton from "./FloatingButton";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "animate.css";
 
 function Todos() {
   const [todos, setTodos] = useState(null);
@@ -47,8 +47,17 @@ function Todos() {
       ) : (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
           <Toolbar />
-          {sortedTodos &&
-            sortedTodos.map((todo) => <Todo key={todo.addedOn} todo={todo} />)}
+          <TransitionGroup>
+            {sortedTodos &&
+              sortedTodos.map((todo) => (
+                <CSSTransition
+                  classNames="animate__animated animate__fadeIn"
+                  timeout={500}
+                >
+                  <Todo key={todo.addedOn} todo={todo} />
+                </CSSTransition>
+              ))}
+          </TransitionGroup>
         </div>
       )}
       <FloatingButton setModal={setModal} />

@@ -10,15 +10,18 @@ import Router from "next/router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
 import { AuthContext } from "@/context/AuthContext";
+import Loading from "@/components/Loading";
 
 function Register() {
   const { currentUser } = useContext(AuthContext);
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -33,6 +36,7 @@ function Register() {
           Todos: [],
         });
         // ...
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -158,6 +162,7 @@ function Register() {
             </div>
           </div>
         </form>
+        {loading && <Loading />}
       </section>
     </div>
   );

@@ -13,24 +13,30 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
 import { AuthContext } from "@/context/AuthContext";
 import { FaGoogle } from "react-icons/fa";
+import Loading from "@/components/Loading";
 
 function Login() {
   const { currentUser } = useContext(AuthContext);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const { user } = userCredential;
+        setLoading(false);
 
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        setLoading(false);
+        alert(errorCode, errorMessage);
       });
   };
 
@@ -139,6 +145,7 @@ function Login() {
             </div>
           </div>
         </form>
+        {loading && <Loading />}
       </section>
     </div>
   );

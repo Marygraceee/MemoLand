@@ -60,7 +60,7 @@ function TodoModal({ showModal, setShowModal }) {
           </Transition.Child>
 
           <span
-            className="inline-block h-screen align-middle"
+            className="inline-block h-screen align-middle "
             aria-hidden="true"
           >
             &#8203;
@@ -74,7 +74,7 @@ function TodoModal({ showModal, setShowModal }) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full text-lg max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div className="inline-block lg:w-[40rem] md:w-[80%] w-full text-lg p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <Dialog.Title
                 as="h3"
                 className="text-xl font-medium leading-6 text-gray-800"
@@ -104,7 +104,7 @@ function TodoModal({ showModal, setShowModal }) {
                       name="task-description"
                       rows={3}
                       placeholder="Task Description"
-                      className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      className="w-full px-4 py-2 rounded-lg border-gray-200 ring-2 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500 max-h-96"
                     />
                   </div>
                   <div className="mt-4">

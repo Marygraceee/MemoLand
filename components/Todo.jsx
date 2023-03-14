@@ -13,40 +13,35 @@ function Todo({ todo }) {
 
   const { currentUser } = useContext(AuthContext);
 
-  const handleComplete = () => {
+  const handleComplete = () =>
     setIsCompleted((prevIsCompleted) => !prevIsCompleted);
-  };
 
   const deleteTodo = async () => {
     const userRef = doc(db, "users", currentUser.uid);
-    await updateDoc(userRef, {
-      Todos: arrayRemove(todo),
-    });
+    await updateDoc(userRef, { Todos: arrayRemove(todo) });
   };
 
   const todoDueDate = new Date(todo.dueDate);
-  const todoDueDateSorted = `${todoDueDate.getDate()}/${
-    todoDueDate.getMonth() + 1
-  }/${todoDueDate.getFullYear()}`;
+  const [day, month, year] = [
+    todoDueDate.getDate(),
+    todoDueDate.getMonth() + 1,
+    todoDueDate.getFullYear(),
+  ];
+  const todoDueDateSorted = `${day}/${month}/${year}`;
   const currentDate = new Date();
-  const currentDateSorted = `${currentDate.getDate()}/${
-    currentDate.getMonth() + 1
-  }/${currentDate.getFullYear()}`;
+  const [currDay, currMonth, currYear] = [
+    currentDate.getDate(),
+    currentDate.getMonth() + 1,
+    currentDate.getFullYear(),
+  ];
+  const currentDateSorted = `${currDay}/${currMonth}/${currYear}`;
   const isDueDateExpired = todoDueDate < new Date().setHours(0, 0, 0, 0);
   const isDueDateToday =
     todoDueDate.getTime() === new Date().setHours(0, 0, 0, 0);
 
   useEffect(() => {
-    if (isDueDateExpired) {
-      setIsExpired(true);
-      setIsUrgent(false);
-    } else if (isDueDateToday) {
-      setIsUrgent(true);
-      setIsExpired(false);
-    } else {
-      setIsUrgent(false);
-      setIsExpired(false);
-    }
+    setIsExpired(isDueDateExpired);
+    setIsUrgent(isDueDateToday);
   }, [isDueDateExpired, isDueDateToday]);
 
   return (
@@ -126,13 +121,12 @@ function Todo({ todo }) {
             <span className="ml-2">{isCompleted ? "Undo" : "Complete"}</span>
           </button>
           <button
+            onClick={deleteTodo}
             type="button"
             className="flex-1 flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
           >
             <FaTrash />
-            <span onClick={deleteTodo} className="ml-2">
-              Remove
-            </span>
+            <span className="ml-2">Remove</span>
           </button>
         </div>
       </div>
@@ -163,13 +157,12 @@ function DropDown({ isCompleted, handleComplete, deleteTodo }) {
           <span className="ml-2">{isCompleted ? "Undo" : "Complete"}</span>
         </button>
         <button
+          onClick={deleteTodo}
           type="button"
           className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
         >
           <FaTrash />
-          <span onClick={deleteTodo} className="ml-2">
-            Remove
-          </span>
+          <span className="ml-2">Remove</span>
         </button>
       </div>
     </div>
