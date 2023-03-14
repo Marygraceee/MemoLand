@@ -40,7 +40,9 @@ function Todos() {
       {sortedTodos && sortedTodos.length === 0 ? (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
           <Toolbar />
-          <h2>You have no memos</h2>
+          <h3 className="text-center text-gray-800 p-5 font-bold text-xl">
+            You have no memos
+          </h3>
         </div>
       ) : (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">

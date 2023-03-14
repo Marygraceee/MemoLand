@@ -79,7 +79,7 @@ function Todo({ todo }) {
         </div>
       </div>
       <div
-        className={`py-2 bg-white text-black px-4 flex items-center justify-between gap-2 text-sm ${
+        className={`py-2 bg-white text-gray-800 px-4 flex items-center justify-between gap-2 text-sm ${
           isCompleted ? "bg-opacity-50 text-opacity-50 line-through" : ""
         } `}
       >
