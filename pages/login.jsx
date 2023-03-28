@@ -11,7 +11,7 @@ import {
 import Router from "next/router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
-import { AuthContext } from "@/context/AuthContext";
+import { AuthContext } from "@/context/FirebaseContext";
 import { FaGoogle } from "react-icons/fa";
 import Loading from "@/components/Loading";
 

@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import Router from "next/router";
-import { AuthContext } from "@/context/AuthContext";
+import { FirebaseContext } from "@/context/FirebaseContext";
 import Todos from "@/components/Todos";
 import Sidebar from "@/components/Sidebar";
 
 function Index() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(FirebaseContext);
   if (!currentUser) {
     Router.push("/login");
   } else {

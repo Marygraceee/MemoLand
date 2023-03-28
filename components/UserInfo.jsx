@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
+import { FirebaseContext } from "@/context/FirebaseContext";
 import { AiOutlineEdit } from "react-icons/ai";
 import Toolbar from "./Toolbar";
 import { updateEmail, updatePassword, updateProfile } from "firebase/auth";
@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { doc, setDoc } from "firebase/firestore";
 
 function UserInfo() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(FirebaseContext);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -94,7 +94,7 @@ function UserInfo() {
   return (
     <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
       <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
-        <Toolbar />
+        
         <h2 className="lg:text-4xl text-3xl font-bold text-gray-800 mx-auto text-center mb-5">
           Your personal informations!
         </h2>

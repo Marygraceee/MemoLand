@@ -2,11 +2,11 @@ import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import React, { useContext, Fragment } from "react";
 import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { db } from "@/firebase";
-import { AuthContext } from "@/context/AuthContext";
+import {  FirebaseContext } from "@/context/FirebaseContext";
 import { Dialog, Transition } from "@headlessui/react";
 
 function TodoModal({ showModal, setShowModal }) {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(FirebaseContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,10 +30,12 @@ function TodoModal({ showModal, setShowModal }) {
           dueDate,
           important,
           addedOn: new Date(),
+          completed: false
         }),
       },
       { merge: true }
     );
+    
     setShowModal(false);
   };
 
