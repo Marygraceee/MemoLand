@@ -42,7 +42,7 @@ const MobileNav = () => {
 
   return (
     <div
-      className={`sticky top-0 left-0 w-full z-50 ${
+      className={`sticky top-0 left-0 w-full shadow-white/20 shadow-lg z-50 ${
         showNavbar ? "block md:hidden" : "hidden"
       }`}
     >
