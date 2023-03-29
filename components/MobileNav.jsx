@@ -42,7 +42,7 @@ const MobileNav = () => {
 
   return (
     <div
-      className={`sticky top-0 left-0 w-full ${
+      className={`sticky top-0 left-0 w-full z-50 ${
         showNavbar ? "block md:hidden" : "hidden"
       }`}
     >
@@ -99,6 +99,7 @@ const MobileNav = () => {
 
                   <button
                     onClick={() => {
+                      handleCloseMenu();
                       handleLogout();
                     }}
                     className="block text-3xl font-bold text-red-500 hover:text-red-600"
