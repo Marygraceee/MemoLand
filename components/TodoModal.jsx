@@ -2,7 +2,7 @@ import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import React, { useContext, Fragment } from "react";
 import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { db } from "@/firebase";
-import {  FirebaseContext } from "@/context/FirebaseContext";
+import { FirebaseContext } from "@/context/FirebaseContext";
 import { Dialog, Transition } from "@headlessui/react";
 
 function TodoModal({ showModal, setShowModal }) {
@@ -30,12 +30,12 @@ function TodoModal({ showModal, setShowModal }) {
           dueDate,
           important,
           addedOn: new Date(),
-          completed: false
+          completed: false,
         }),
       },
       { merge: true }
     );
-    
+
     setShowModal(false);
   };
 

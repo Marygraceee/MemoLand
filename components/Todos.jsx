@@ -8,15 +8,15 @@ import "animate.css";
 import { FirebaseContext } from "@/context/FirebaseContext";
 
 function Todos() {
-  const { todos } = useContext(FirebaseContext)
+  const { todos } = useContext(FirebaseContext);
   const [modal, setModal] = useState(false);
-  const [sortType, setSortType] = useState('title'); // default sorting by title
-  const [filterType, setFilterType] = useState('all'); // default filtering to show all todos
-  const [searchTerm, setSearchTerm] = useState(''); // default search term
+  const [sortType, setSortType] = useState("title"); // default sorting by title
+  const [filterType, setFilterType] = useState("all"); // default filtering to show all todos
+  const [searchTerm, setSearchTerm] = useState(""); // default search term
 
   // Sorting function to sort todos based on the selected sort type
   const sortTodos = (a, b) => {
-    if (sortType === 'title') {
+    if (sortType === "title") {
       if (a.taskTitle < b.taskTitle) {
         return -1;
       }
@@ -25,7 +25,7 @@ function Todos() {
       }
       return 0;
     }
-    if (sortType === 'dueDate') {
+    if (sortType === "dueDate") {
       if (!a.dueDate) {
         return 1;
       }
@@ -38,10 +38,10 @@ function Todos() {
 
   // Filtering function to filter todos based on the selected filter type
   const filterTodos = (todo) => {
-    if (filterType === 'all') {
+    if (filterType === "all") {
       return true;
     }
-    if (filterType === 'important') {
+    if (filterType === "important") {
       return todo.important;
     }
     return true;
@@ -60,39 +60,41 @@ function Todos() {
   };
 
   // Get the sorted, filtered, and searched todos
-  const sortedAndFilteredAndSearchedTodos = todos && todos
-    .sort(sortTodos)
-    .filter(filterTodos)
-    .filter(searchTodos);
+  const sortedAndFilteredAndSearchedTodos =
+    todos && todos.sort(sortTodos).filter(filterTodos).filter(searchTodos);
 
   return (
     <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
-      {sortedAndFilteredAndSearchedTodos && sortedAndFilteredAndSearchedTodos.length === 0 || todos === undefined ? (
+      {(sortedAndFilteredAndSearchedTodos &&
+        sortedAndFilteredAndSearchedTodos.length === 0) ||
+      todos === undefined ? (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
-         <Toolbar
-        sortType={sortType}
-        setSortType={setSortType}
-        filterType={filterType}
-        setFilterType={setFilterType}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+          <Toolbar
+            sortType={sortType}
+            setSortType={setSortType}
+            filterType={filterType}
+            setFilterType={setFilterType}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
           <h3 className="text-center text-gray-800 p-5 font-bold text-xl">
             You have no memos
           </h3>
         </div>
       ) : (
         <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5 overflow-scroll">
-         <Toolbar
-        sortType={sortType}
-        setSortType={setSortType}
-        filterType={filterType}
-        setFilterType={setFilterType}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+          <Toolbar
+            sortType={sortType}
+            setSortType={setSortType}
+            filterType={filterType}
+            setFilterType={setFilterType}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
           {sortedAndFilteredAndSearchedTodos &&
-            sortedAndFilteredAndSearchedTodos.map((todo) => <Todo key={todo.addedOn} todo={todo} />)}
+            sortedAndFilteredAndSearchedTodos.map((todo) => (
+              <Todo key={todo.addedOn} todo={todo} />
+            ))}
         </div>
       )}
       <FloatingButton setModal={setModal} />

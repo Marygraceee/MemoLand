@@ -72,9 +72,7 @@ function Todo({ todo }) {
         {isExpired ? (
           <p className="text-red-500 font-bold">Expired</p>
         ) : (
-          todo.important && (
-            <p className="text-red-500 font-bold">Important</p>
-          )
+          todo.important && <p className="text-red-500 font-bold">Important</p>
         )}
         <p>Due date: {formatDate(todo.dueDate)}</p>
       </div>

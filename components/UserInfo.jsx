@@ -94,7 +94,6 @@ function UserInfo() {
   return (
     <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
       <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
-        
         <h2 className="lg:text-4xl text-3xl font-bold text-gray-800 mx-auto text-center mb-5">
           Your personal informations!
         </h2>
