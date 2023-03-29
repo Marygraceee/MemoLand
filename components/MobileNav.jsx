@@ -46,7 +46,7 @@ const MobileNav = () => {
         showNavbar ? "block md:hidden" : "hidden"
       }`}
     >
-      <nav className="bg-gray-900 text-white flex justify-between items-center p-4">
+      <nav className="bg-gray-800 text-white flex justify-between items-center p-4">
         <div className="font-bold">
           {currentUser && currentUser.displayName}
         </div>
