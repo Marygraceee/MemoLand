@@ -1,8 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useLayoutEffect } from "react";
 import { FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
 import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { FirebaseContext } from "@/context/FirebaseContext";
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "@use-gesture/react";
 
 function Todo({ todo }) {
   const [isUrgent, setIsUrgent] = useState(false);
@@ -55,8 +57,72 @@ function Todo({ todo }) {
     checkDueDateExpired();
   }, []);
 
+  const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
+
+  // Define boolean state variables to track whether functions have been triggered
+  const [completeTriggered, setCompleteTriggered] = useState(false);
+  const [deleteTriggered, setDeleteTriggered] = useState(false);
+
+  // Set the drag hook and define component movement based on gesture data
+  const bind = useDrag(({ down, movement: [mx, my], velocity }) => {
+    // Calculate the horizontal position of the element
+    const position = mx / window.innerWidth;
+
+    // Define the threshold as 0.5 (50% off screen)
+    const threshold = 0.5;
+
+    // Trigger auto-drag behavior and function calls when position is beyond threshold
+    if (position > threshold) {
+      if (!completeTriggered) {
+        setCompleteTriggered(true);
+        api.start({
+          x: window.innerWidth,
+          y: 0,
+          immediate: false,
+          config: { duration: 200 },
+          onRest: () => {
+            completeTodo(); // Trigger completeTodo function when auto scroll to the right is complete
+            setCompleteTriggered(false); // Reset trigger state
+          },
+        });
+      }
+    } else if (position < -threshold) {
+      if (!deleteTriggered) {
+        setDeleteTriggered(true);
+        api.start({
+          x: -window.innerWidth,
+          y: 0,
+          immediate: false,
+          config: { duration: 200 },
+          onRest: () => {
+            deleteTodo(); // Trigger deleteTodo function when auto scroll to the left is complete
+            setDeleteTriggered(false); // Reset trigger state
+          },
+        });
+      }
+    } else if (!down) {
+      // Reset trigger states when element is released
+      setCompleteTriggered(false);
+      setDeleteTriggered(false);
+      api.start({
+        x: 0,
+        y: 0,
+        velocity: velocity ? velocity[0] : 0, // Pass in velocity to create a springy animation
+        immediate: false,
+        config: { mass: 1, tension: 500, friction: 40 },
+      });
+    } else {
+      api.start({ x: mx, y: 0, immediate: down });
+    }
+  });
+
   return (
-    <div className="p-4 rounded-lg shadow-lg bg-gray-800 text-gray-100 my-2">
+    <animated.div
+      id="Todo"
+      className="p-4 rounded-lg shadow-lg bg-gray-800 text-gray-100 my-2"
+      {...bind()}
+      style={{ x, y }}
+    >
       {console.log(todo)}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{todo.taskTitle}</h2>
@@ -94,7 +160,7 @@ function Todo({ todo }) {
         )}
         <p>Due date: {formatDate(todo.dueDate)}</p>
       </div>
-    </div>
+    </animated.div>
   );
 }
 

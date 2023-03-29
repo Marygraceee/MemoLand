@@ -16,6 +16,7 @@
     "@mui/material": "^5.11.15",
     "@next/font": "13.1.6",
     "@react-spring/web": "^9.7.1",
+    "@use-gesture/react": "^10.2.25",
     "animate.css": "^4.1.1",
     "eslint": "^8.37.0",
     "eslint-config-next": "13.1.6",
@@ -26,7 +27,9 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.9.0",
-    "react-transition-group": "^4.4.5"
+    "react-swipeable": "^7.0.0",
+    "react-transition-group": "^4.4.5",
+    "react-use-gestures": "^0.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
