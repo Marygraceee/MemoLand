@@ -80,8 +80,8 @@ function Todos() {
     },
   };
   return (
-    <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
-      <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
+    <section className="w-full bg-gray-800 h-screen flex justify-center items-center">
+      <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5 overflow-scroll scrollbar-hide">
         <Toolbar
           sortType={sortType}
           setSortType={setSortType}
