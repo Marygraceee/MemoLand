@@ -11,12 +11,12 @@ import {
 import Router from "next/router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
-import { AuthContext } from "@/context/FirebaseContext";
+import { FirebaseContext } from "@/context/FirebaseContext";
 import { FaGoogle } from "react-icons/fa";
 import Loading from "@/components/Loading";
 
 function Login() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(FirebaseContext);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);

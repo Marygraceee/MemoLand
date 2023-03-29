@@ -9,11 +9,11 @@ import {
 import Router from "next/router";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, provider } from "@/firebase";
-import { AuthContext } from "@/context/FirebaseContext";
+import { FirebaseContext } from "@/context/FirebaseContext";
 import Loading from "@/components/Loading";
 
 function Register() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(FirebaseContext);
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
