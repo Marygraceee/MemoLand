@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { FaCheckCircle, FaEdit, FaTrash } from "react-icons/fa";
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { FirebaseContext } from "@/context/FirebaseContext";
 
@@ -12,6 +12,21 @@ function Todo({ todo }) {
   const deleteTodo = async () => {
     const userRef = doc(db, "users", currentUser.uid);
     await updateDoc(userRef, { Todos: arrayRemove(todo) });
+  };
+
+  const completeTodo = async () => {
+    const userRef = doc(db, "users", currentUser.uid);
+    const userDoc = await getDoc(userRef);
+    const Todos = userDoc.data().Todos;
+    const updatedTodos = Todos.map((todo) => {
+      return {
+        ...todo,
+        completed: true,
+      };
+    });
+    await updateDoc(userRef, {
+      Todos: updatedTodos,
+    });
   };
 
   const formatDate = (date) => {
@@ -46,12 +61,15 @@ function Todo({ todo }) {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{todo.taskTitle}</h2>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            className="bg-green-500 hover:bg-green-600 rounded-md px-3 py-2 text-gray-100"
-          >
-            <FaCheckCircle />
-          </button>
+          {!todo.completed && (
+            <button
+              onClick={completeTodo}
+              type="button"
+              className="bg-green-500 hover:bg-green-600 rounded-md px-3 py-2 text-gray-100"
+            >
+              <FaCheckCircle />
+            </button>
+          )}
           <button
             type="button"
             className="bg-cyan-500 hover:bg-cyan-600 rounded-md px-3 py-2 text-gray-100"

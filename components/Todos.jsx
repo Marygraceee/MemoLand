@@ -6,6 +6,7 @@ import Toolbar from "./Toolbar";
 import FloatingButton from "./FloatingButton";
 import "animate.css";
 import { FirebaseContext } from "@/context/FirebaseContext";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Todos() {
   const { todos } = useContext(FirebaseContext);
@@ -13,7 +14,7 @@ function Todos() {
   const [sortType, setSortType] = useState("title"); // default sorting by title
   const [filterType, setFilterType] = useState("all"); // default filtering to show all todos
   const [searchTerm, setSearchTerm] = useState(""); // default search term
-
+  const [showCompleted, setShowCompleted] = useState(false);
   // Sorting function to sort todos based on the selected sort type
   const sortTodos = (a, b) => {
     if (sortType === "title") {
@@ -63,40 +64,92 @@ function Todos() {
   const sortedAndFilteredAndSearchedTodos =
     todos && todos.sort(sortTodos).filter(filterTodos).filter(searchTodos);
 
+  const completedTodos =
+    sortedAndFilteredAndSearchedTodos &&
+    sortedAndFilteredAndSearchedTodos.filter((todo) => todo.completed);
+  const uncompletedTodos =
+    sortedAndFilteredAndSearchedTodos &&
+    sortedAndFilteredAndSearchedTodos.filter((todo) => !todo.completed);
+
+  // Define the stagger animation properties
+  const stagger = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1, // Set the delay between each Todo component
+      },
+    },
+  };
   return (
     <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
-      {(sortedAndFilteredAndSearchedTodos &&
-        sortedAndFilteredAndSearchedTodos.length === 0) ||
-      todos === undefined ? (
-        <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
-          <Toolbar
-            sortType={sortType}
-            setSortType={setSortType}
-            filterType={filterType}
-            setFilterType={setFilterType}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
-          <h3 className="text-center text-gray-800 p-5 font-bold text-xl">
-            You have no memos
-          </h3>
+      <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
+        <Toolbar
+          sortType={sortType}
+          setSortType={setSortType}
+          filterType={filterType}
+          setFilterType={setFilterType}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+        <div className="flex justify-center items-center border-b-2 mb-2">
+          <button
+            className={`py-1 px-4 font-bold text-lg focus:outline-none ${
+              !showCompleted ? "border-b-2 border-blue-500" : ""
+            }`}
+            onClick={() => setShowCompleted(false)}
+          >
+            To do
+          </button>
+          <button
+            className={`py-1 px-4 font-bold text-lg focus:outline-none ${
+              showCompleted ? "border-b-2 border-blue-500" : ""
+            }`}
+            onClick={() => setShowCompleted(true)}
+          >
+            Done
+          </button>
         </div>
-      ) : (
-        <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5 overflow-scroll">
-          <Toolbar
-            sortType={sortType}
-            setSortType={setSortType}
-            filterType={filterType}
-            setFilterType={setFilterType}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-          />
-          {sortedAndFilteredAndSearchedTodos &&
-            sortedAndFilteredAndSearchedTodos.map((todo) => (
-              <Todo key={todo.addedOn} todo={todo} />
-            ))}
-        </div>
-      )}
+        <AnimatePresence mode="wait">
+          {showCompleted ? (
+            <motion.div
+              key="completed-todos"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {completedTodos.map((todo, index) => (
+                <motion.div
+                  key={todo.addedOn}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
+                >
+                  <Todo todo={todo} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="uncompleted-todos"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {uncompletedTodos.map((todo, index) => (
+                <motion.div
+                  key={todo.addedOn}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
+                >
+                  <Todo todo={todo} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
       <FloatingButton setModal={setModal} />
       <TodoModal showModal={modal} setShowModal={setModal} />
     </section>
