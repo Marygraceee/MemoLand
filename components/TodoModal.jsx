@@ -1,30 +1,31 @@
 import { arrayUnion, doc, setDoc } from "firebase/firestore";
 import React, { useContext, Fragment } from "react";
-import { AiOutlineCloseCircle, AiOutlinePlusCircle } from "react-icons/ai";
+
 import { db } from "@/firebase";
 import { FirebaseContext } from "@/context/FirebaseContext";
 import { Dialog, Transition } from "@headlessui/react";
+import { v4 as uuidv4 } from "uuid";
 
 function TodoModal({ showModal, setShowModal }) {
   const { currentUser } = useContext(FirebaseContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      e.target[0].value,
-      e.target[1].value,
-      e.target[2].value,
-      e.target[3].checked
-    );
+
     const taskTitle = e.target[0].value;
     const taskDescription = e.target[1].value;
     const dueDate = e.target[2].value;
     const important = e.target[3].checked;
+
+    // Generate a random ID using uuidv4
+    const id = uuidv4();
+
     const userRef = doc(db, "users", currentUser.uid);
     setDoc(
       userRef,
       {
         Todos: arrayUnion({
+          id: id, // Add the new ID to the Todo object
           taskTitle,
           taskDescription,
           dueDate,

@@ -16,15 +16,36 @@ function Todo({ todo }) {
     await updateDoc(userRef, { Todos: arrayRemove(todo) });
   };
 
-  const completeTodo = async () => {
+  const completeTodo = async (todoId) => {
     const userRef = doc(db, "users", currentUser.uid);
     const userDoc = await getDoc(userRef);
     const Todos = userDoc.data().Todos;
     const updatedTodos = Todos.map((todo) => {
-      return {
-        ...todo,
-        completed: true,
-      };
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          completed: true,
+        };
+      }
+      return todo;
+    });
+    await updateDoc(userRef, {
+      Todos: updatedTodos,
+    });
+  };
+
+  const uncompleteTodo = async (todoId) => {
+    const userRef = doc(db, "users", currentUser.uid);
+    const userDoc = await getDoc(userRef);
+    const Todos = userDoc.data().Todos;
+    const updatedTodos = Todos.map((todo) => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          completed: false,
+        };
+      }
+      return todo;
     });
     await updateDoc(userRef, {
       Todos: updatedTodos,
@@ -57,6 +78,8 @@ function Todo({ todo }) {
     checkDueDateExpired();
   }, []);
 
+  // Here starts the React-Gestures code
+
   const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
 
   // Define boolean state variables to track whether functions have been triggered
@@ -71,6 +94,16 @@ function Todo({ todo }) {
     // Define the threshold as 0.5 (50% off screen)
     const threshold = 0.5;
 
+    // Make the element un-draggable to the right if todo.completed is true
+    if (todo.completed && position > 0) {
+      return;
+    }
+
+    // Make the element un-draggable to the left if todo.completed is false
+    if (!todo.completed && position < 0) {
+      return;
+    }
+
     // Trigger auto-drag behavior and function calls when position is beyond threshold
     if (position > threshold) {
       if (!completeTriggered) {
@@ -81,7 +114,7 @@ function Todo({ todo }) {
           immediate: false,
           config: { duration: 200 },
           onRest: () => {
-            completeTodo(); // Trigger completeTodo function when auto scroll to the right is complete
+            completeTodo(todo.id); // Trigger completeTodo function when auto scroll to the right is complete
             setCompleteTriggered(false); // Reset trigger state
           },
         });
@@ -95,7 +128,7 @@ function Todo({ todo }) {
           immediate: false,
           config: { duration: 200 },
           onRest: () => {
-            deleteTodo(); // Trigger deleteTodo function when auto scroll to the left is complete
+            uncompleteTodo(todo.id); // Trigger deleteTodo function when auto scroll to the left is complete
             setDeleteTriggered(false); // Reset trigger state
           },
         });
@@ -123,13 +156,14 @@ function Todo({ todo }) {
       {...bind()}
       style={{ x, y }}
     >
-      {console.log(todo)}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{todo.taskTitle}</h2>
         <div className="flex items-center gap-2">
           {!todo.completed && (
             <button
-              onClick={completeTodo}
+              onClick={() => {
+                completeTodo(todo.id);
+              }}
               type="button"
               className="bg-green-500 hover:bg-green-600 rounded-md px-3 py-2 text-gray-100"
             >

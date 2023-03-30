@@ -29,7 +29,8 @@
     "react-router-dom": "^6.9.0",
     "react-swipeable": "^7.0.0",
     "react-transition-group": "^4.4.5",
-    "react-use-gestures": "^0.1.2"
+    "react-use-gestures": "^0.1.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

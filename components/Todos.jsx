@@ -116,17 +116,18 @@ function Todos() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {completedTodos.map((todo, index) => (
-                <motion.div
-                  key={todo.addedOn}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
-                >
-                  <Todo todo={todo} />
-                </motion.div>
-              ))}
+              {completedTodos &&
+                completedTodos.map((todo, index) => (
+                  <motion.div
+                    key={todo.addedOn}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
+                  >
+                    <Todo todo={todo} />
+                  </motion.div>
+                ))}
             </motion.div>
           ) : (
             <motion.div
@@ -135,17 +136,18 @@ function Todos() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {uncompletedTodos.map((todo, index) => (
-                <motion.div
-                  key={todo.addedOn}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
-                >
-                  <Todo todo={todo} />
-                </motion.div>
-              ))}
+              {uncompletedTodos &&
+                uncompletedTodos.map((todo, index) => (
+                  <motion.div
+                    key={todo.addedOn}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: index * 0.1 }} // add a delay of 0.1 seconds to each todo
+                  >
+                    <Todo todo={todo} />
+                  </motion.div>
+                ))}
             </motion.div>
           )}
         </AnimatePresence>
