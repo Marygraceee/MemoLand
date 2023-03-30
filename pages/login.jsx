@@ -78,20 +78,18 @@ function Login() {
         style={{ backgroundImage: "url(/sfondo.jpg)" }}
         className="flex-1 lg:flex hidden flex-col justify-center items-center object-cover bg-cover bg-black/50 bg-blend-darken text-white"
       >
-        <h1 className="text-6xl font-bold">Memoland</h1>
-        <p className="text-5xl tracking-wide text-gray-100">
-          Organize your life
-        </p>
+        <h2 className="block xl:text-7xl text-5xl font-bold">
+          Organize your life!
+        </h2>
       </section>
       <section className="flex-1 flex flex-col justify-center items-center h-screen bg-gray-100 gap-5">
-        <h2 className="block lg:hidden xl:text-7xl text-5xl font-bold">
-          MemoLand
-        </h2>
         <form
           onSubmit={handleLogin}
-          className="flex flex-col justify-center items-center bg-white text-gray-800  rounded-md shadow-xl text-xl px-24 py-12"
+          className="flex flex-col justify-center items-center bg-white text-gray-800  lg:rounded-md lg:shadow-xl text-xl lg:px-24 lg:py-12 lg:w-auto lg:h-auto w-full h-full px-6"
         >
-          <h3 className="text-2xl font-bold mb-4">Welcome back!</h3>
+          <h2 className="block xl:text-6xl text-5xl font-bold mb-2">
+            MemoLand
+          </h2>
           <div className="flex flex-col space-y-4 w-full">
             <label htmlFor="email" className="sr-only">
               Email

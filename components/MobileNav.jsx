@@ -80,14 +80,6 @@ const MobileNav = () => {
                   <FiX size={24} />
                 </button>
                 <div className="flex flex-col items-center justify-center h-full">
-                  <Link legacyBehavior href="/projects">
-                    <a
-                      onClick={handleCloseMenu}
-                      className="block text-3xl font-bold mb-8 text-gray-800 hover:text-gray-900"
-                    >
-                      Projects
-                    </a>
-                  </Link>
                   <Link legacyBehavior href="/">
                     <a
                       onClick={handleCloseMenu}

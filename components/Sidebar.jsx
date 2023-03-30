@@ -42,14 +42,6 @@ const Sidebar = () => {
         </h2>
         <ul className="text-gray-100 text-lg flex flex-col gap-5">
           <li className="transform hover:translate-x-1 transition duration-300">
-            <Link legacyBehavior href="/projects">
-              <a className="flex items-center gap-3">
-                <HiOutlineFolder />
-                <span>Projects</span>
-              </a>
-            </Link>
-          </li>
-          <li className="transform hover:translate-x-1 transition duration-300">
             <Link legacyBehavior href="/">
               <a className="flex items-center gap-3">
                 <HiOutlineClipboardList />

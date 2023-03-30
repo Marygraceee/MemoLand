@@ -93,7 +93,7 @@ function Todos() {
         <div className="flex justify-center items-center border-b-2 mb-2">
           <button
             className={`py-1 px-4 font-bold text-lg focus:outline-none ${
-              !showCompleted ? "border-b-2 border-blue-500" : ""
+              !showCompleted ? "border-b-2 border-cyan-500" : ""
             }`}
             onClick={() => setShowCompleted(false)}
           >
@@ -101,7 +101,7 @@ function Todos() {
           </button>
           <button
             className={`py-1 px-4 font-bold text-lg focus:outline-none ${
-              showCompleted ? "border-b-2 border-blue-500" : ""
+              showCompleted ? "border-b-2 border-cyan-500" : ""
             }`}
             onClick={() => setShowCompleted(true)}
           >
