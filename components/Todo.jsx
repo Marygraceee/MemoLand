@@ -169,12 +169,22 @@ function Todo({ todo }) {
       </div>
       <p className="mt-2">{todo.taskDescription}</p>
       <div className="flex justify-between items-center mt-4">
-        {isExpired ? (
-          <p className="text-red-500 font-bold">Expired</p>
-        ) : (
-          todo.important && <p className="text-red-500 font-bold">Important</p>
-        )}
-        <p>Due date: {formatDate(todo.dueDate)}</p>
+        <div>
+          {isExpired ? (
+            <p className="text-red-500 font-bold">Expired</p>
+          ) : (
+            todo.important && (
+              <p className="text-red-500 font-bold">Important</p>
+            )
+          )}
+        </div>
+        <div
+          className="flex justify-center items-center gap-2"
+          style={{ textAlign: "right" }}
+        >
+          <p>Due date:</p>
+          <p>{formatDate(todo.dueDate)}</p>
+        </div>
       </div>
     </animated.div>
   );

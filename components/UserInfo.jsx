@@ -21,79 +21,56 @@ function UserInfo() {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const handleUserNameChange = (e) => {
+  const handleUserNameChange = async (e) => {
     e.preventDefault();
     setLoading(true);
-    updateProfile(auth.currentUser, {
-      displayName: newUsername,
-    })
-      .then(() => {
-        const userRef = doc(db, "users", currentUser.uid);
-        setDoc(
-          userRef,
-          {
-            username: newUsername,
-          },
-          { merge: true }
-        )
-          .then(() => {
-            setLoading(false);
-            router.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+    try {
+      await updateProfile(auth.currentUser, { displayName: newUsername });
+
+      const userRef = doc(db, "users", currentUser.uid);
+      await setDoc(userRef, { username: newUsername }, { merge: true });
+
+      setLoading(false);
+      router.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = async (e) => {
     e.preventDefault();
     setLoading(true);
-    updateEmail(auth.currentUser, newEmail)
-      .then(() => {
-        const userRef = doc(db, "users", currentUser.uid);
-        setDoc(
-          userRef,
-          {
-            email: newEmail,
-          },
-          { merge: true }
-        )
-          .then(() => {
-            setLoading(false);
-            router.reload();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        // An error occurred
-        // ...
-      });
+
+    try {
+      await updateEmail(auth.currentUser, newEmail);
+
+      const userRef = doc(db, "users", currentUser.uid);
+      await setDoc(userRef, { email: newEmail }, { merge: true });
+
+      setLoading(false);
+      router.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
     setLoading(true);
-    updatePassword(auth.currentUser, newPassword)
-      .then(() => {
-        // Update successful.
-        setLoading(false);
-        router.reload();
-      })
-      .catch((error) => {
-        // An error ocurred
-        // ...
-      });
+
+    try {
+      await updatePassword(auth.currentUser, newPassword);
+      setLoading(false);
+      router.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <section className="w-full bg-gray-800 h-screen overflow-scroll scrollbar-hide flex justify-center items-center">
-      <div className="bg-white h-[98%] w-[98%] rounded-3xl p-5">
+    <section className="w-full bg-gray-800 h-screen flex justify-center items-center">
+      <div className="bg-white lg:h-[98%] lg:w-[98%] w-full h-full lg:rounded-3xl p-5 overflow-y-scroll overflow-x-hidden scrollbar-hide">
         <h2 className="lg:text-4xl text-3xl font-bold text-gray-800 mx-auto text-center mb-5">
           Your personal informations!
         </h2>
