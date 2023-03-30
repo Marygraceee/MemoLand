@@ -71,7 +71,7 @@ const MobileNav = () => {
                 exit="closed"
                 variants={menuVariants}
                 transition={menuTransition}
-                className="fixed top-0 left-0 w-full h-full bg-white z-50"
+                className="fixed top-0 left-0 w-full max-w-md h-screen bg-white z-50 overflow-y-auto"
               >
                 <button
                   onClick={() => setMenuOpen(false)}
