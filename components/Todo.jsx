@@ -16,7 +16,7 @@ function Todo({ todo }) {
     await updateDoc(userRef, { Todos: arrayRemove(todo) });
   };
 
-  const completeTodo = async (todoId) => {
+  const markAsComplete = async (todoId) => {
     const userRef = doc(db, "users", currentUser.uid);
     const userDoc = await getDoc(userRef);
     const Todos = userDoc.data().Todos;
@@ -34,7 +34,7 @@ function Todo({ todo }) {
     });
   };
 
-  const uncompleteTodo = async (todoId) => {
+  const unMarkCompletion = async (todoId) => {
     const userRef = doc(db, "users", currentUser.uid);
     const userDoc = await getDoc(userRef);
     const Todos = userDoc.data().Todos;
@@ -80,42 +80,32 @@ function Todo({ todo }) {
 
   // Here starts the React-Gestures code
 
-  const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }));
-
-  // Define boolean state variables to track whether functions have been triggered
+  const [{ x }, api] = useSpring(() => ({ x: 0 }));
   const [completeTriggered, setCompleteTriggered] = useState(false);
   const [deleteTriggered, setDeleteTriggered] = useState(false);
 
-  // Set the drag hook and define component movement based on gesture data
-  const bind = useDrag(({ down, movement: [mx, my], velocity }) => {
-    // Calculate the horizontal position of the element
+  const bind = useDrag(({ down, movement: [mx], velocity }) => {
     const position = mx / window.innerWidth;
-
-    // Define the threshold as 0.5 (50% off screen)
     const threshold = 0.5;
 
-    // Make the element un-draggable to the right if todo.completed is true
     if (todo.completed && position > 0) {
       return;
     }
 
-    // Make the element un-draggable to the left if todo.completed is false
     if (!todo.completed && position < 0) {
       return;
     }
 
-    // Trigger auto-drag behavior and function calls when position is beyond threshold
     if (position > threshold) {
       if (!completeTriggered) {
         setCompleteTriggered(true);
         api.start({
           x: window.innerWidth,
-          y: 0,
           immediate: false,
           config: { duration: 200 },
           onRest: () => {
-            completeTodo(todo.id); // Trigger completeTodo function when auto scroll to the right is complete
-            setCompleteTriggered(false); // Reset trigger state
+            markAsComplete(todo.id);
+            setCompleteTriggered(false);
           },
         });
       }
@@ -124,28 +114,25 @@ function Todo({ todo }) {
         setDeleteTriggered(true);
         api.start({
           x: -window.innerWidth,
-          y: 0,
           immediate: false,
           config: { duration: 200 },
           onRest: () => {
-            uncompleteTodo(todo.id); // Trigger deleteTodo function when auto scroll to the left is complete
-            setDeleteTriggered(false); // Reset trigger state
+            unMarkCompletion(todo.id);
+            setDeleteTriggered(false);
           },
         });
       }
     } else if (!down) {
-      // Reset trigger states when element is released
       setCompleteTriggered(false);
       setDeleteTriggered(false);
       api.start({
         x: 0,
-        y: 0,
-        velocity: velocity ? velocity[0] : 0, // Pass in velocity to create a springy animation
+        velocity: velocity ? velocity[0] : 0,
         immediate: false,
         config: { mass: 1, tension: 500, friction: 40 },
       });
     } else {
-      api.start({ x: mx, y: 0, immediate: down });
+      api.start({ x: mx, immediate: down });
     }
   });
 
@@ -154,7 +141,7 @@ function Todo({ todo }) {
       id="Todo"
       className="p-4 rounded-lg shadow-lg bg-gray-800 text-gray-100 my-2"
       {...bind()}
-      style={{ x, y }}
+      style={{ x }}
     >
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{todo.taskTitle}</h2>
@@ -162,7 +149,7 @@ function Todo({ todo }) {
           {!todo.completed && (
             <button
               onClick={() => {
-                completeTodo(todo.id);
+                markAsComplete(todo.id);
               }}
               type="button"
               className="bg-green-500 hover:bg-green-600 rounded-md px-3 py-2 text-gray-100"
@@ -170,12 +157,7 @@ function Todo({ todo }) {
               <FaCheckCircle />
             </button>
           )}
-          <button
-            type="button"
-            className="bg-cyan-500 hover:bg-cyan-600 rounded-md px-3 py-2 text-gray-100"
-          >
-            <FaEdit />
-          </button>
+
           <button
             type="button"
             onClick={deleteTodo}
